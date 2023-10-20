@@ -1,0 +1,29 @@
+{
+  "name": "clean_blog",
+  "version": "1.0.0",
+  "description": "blog site",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MustafaSungur/Clean_Blog.git"
+  },
+  "keywords": [
+    "clean_blog"
+  ],
+  "author": "Mustafa Sungur ÖZTÜRK",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MustafaSungur/Clean_Blog/issues"
+  },
+  "homepage": "https://github.com/MustafaSungur/Clean_Blog#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
