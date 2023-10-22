@@ -1,9 +1,24 @@
 const express = require("express");
+const ejs = require("ejs");
 const app = express();
 
-const blog = { id: 1, title: "Blog title", description: "Blog description" };
+// TAMPLATE ENGINE
+app.set("view engine", "ejs");
+
+// MIDLLLEWARE
+app.use(express.static("public"));
+
+// ROUTES
 app.get("/", (req, res) => {
-  res.send(blog);
+  res.render("index");
+});
+
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
+app.get("/add_post", (req, res) => {
+  res.render("add_post");
 });
 
 port = 3000;
