@@ -1,10 +1,10 @@
-
 <%- include("./partials/header.ejs") -%>
+
 <body>
 
   <!-- Navigation -->
   <%- include("./partials/navigation.ejs") -%>
-  
+
   <!-- Page Header -->
   <header class="masthead" style="background-image: url('img/home-bg.jpg')">
     <div class="overlay"></div>
@@ -26,25 +26,47 @@
       <div class="col-lg-8 col-md-10 mx-auto">
         <% for(let i=0; i < post.length; i++) { %>
         <div class="post-preview">
-          <a href="post.html">
+          <a href="/post/<%= post[i]._id %>">
             <h2 class="post-title">
-               <%= post[i].title %>
+              <%= post[i].title %>
             </h2>
             <h3 class="post-subtitle">
-              <%= post[i].detail %>
+              <%= post[i].detail.split(" ").slice(0, 5).join(" ") %>
             </h3>
           </a>
-          <p class="post-meta">Posted by
-            <a href="#">Start Bootstrap</a> on 
-          <%= post[i].dateCreated %> </p>
+          <p class=" post-meta">Posted by
+            <a href="#">Start Bootstrap</a> on
+            <%= post[i].dateCreated %>
+          </p>
         </div>
         <hr>
-         <% } %>
-        
+        <% } %>
+
         <!-- Pager -->
-        <div class="clearfix">
-          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-        </div>
+        <% if (pages > 0) { %>
+        <ul class="pagination">
+          <% for (let i = 1; i <= pages; i++) { %>
+          <% if (current == i) { %>
+          <li class="page-item active">
+            <a href="/?page=<%= i %>" class="page-link"
+              style="background-color: #00657b; border-color: #00657b; color: #fff;"><%= i %></a>
+          </li>
+          <% } else if (i < pages) { %>
+          <li class="page-item">
+            <a href="/?page=<%= i %>" class="page-link"><%= i %></a>
+          </li>
+          <% } else { %>
+          <li class="page-item">
+            <a href="/?page=<%= i %>" class="page-link" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <% } %>
+          <% } %>
+        </ul>
+        <% } %>
+
+
       </div>
     </div>
   </div>
@@ -52,7 +74,7 @@
   <hr>
 
   <!-- Footer -->
- <%- include("./partials/footer.ejs") -%>
+  <%- include("./partials/footer.ejs") -%>
 
 
 

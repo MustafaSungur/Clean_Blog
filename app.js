@@ -1,13 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
-const date = require("date-and-time");
+const methodOverride = require("method-override");
 
-const Post = require("./models/post");
-const formatDate = require("./formatDate");
+const pageController = require("./controller/pageController");
+const postController = require("./controller/postController");
 
-mongoose.connect("mongodb://localhost/cleanblog-test-db");
-console.log("Connect db");
+mongoose
+  .connect("mongodb://localhost/cleanblog-test-db")
+  .then(() => {
+    console.log("CONNECTED DATABASE");
+  })
+  .catch((err) => console.log(err));
 
 const app = express();
 
@@ -18,32 +22,23 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  })
+);
 
-// ROUTES
-app.get("/", async (req, res) => {
-  const post = await Post.find().sort("-dateCreated");
+// PAGE CONTROLLER
+app.get("/about", pageController.getAboutPage);
+app.get("/post/:id", pageController.getPostDetail);
+app.get("/add_post", pageController.getAddPage);
+app.get("/post/edit/:id", pageController.getEditPage);
 
-  const modifiedPost = post.map((item) => {
-    const newDate = date.format(item.dateCreated, "YYYY/MM/DD HH:mm:ss");
-
-    return { ...item._doc, dateCreated: newDate };
-  });
-
-  res.render("index", { post: modifiedPost });
-});
-
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-
-app.get("/add_post", (req, res) => {
-  res.render("add_post");
-});
-
-app.post("/add_post", (req, res) => {
-  Post.create(req.body);
-  res.redirect("/");
-});
+// POST CONTROLLER
+app.get("/", postController.getAllPost);
+app.post("/add_post", postController.createPost);
+app.put("/post/:id", postController.updatePost);
+app.delete("/post/:id", postController.deletePost);
 
 port = 3000;
 app.listen(port, (err) => {
